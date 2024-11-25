@@ -39,5 +39,21 @@ function validate(event) {
 
         return;
     }
+
+    client = {...client, table, hour};
+    
+    // ocultamos modal
+    const modalForm = document.querySelector('#formulario');
+    const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
+    modalBootstrap.hide();
+
+    showSections()
+}
+
+
+// muestra secciones ocultas
+function showSections() {
+    const sections = document.querySelectorAll('.d-none');
+    sections.forEach(section => section.classList.remove('d-none'));
 }
 
