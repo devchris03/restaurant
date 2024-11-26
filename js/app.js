@@ -145,14 +145,14 @@ function updateMeal(product) {
         const remove = order.filter(meal => meal.id !== product.id);
         client.order = [...remove];
     }
-
-    cleanOrder();
     showOrder();
 }
 
 
 // muestra platillos ordenados
 function showOrder() {
+    cleanOrder();
+
     const content = document.querySelector('#resumen .contenido');
     const row = document.createElement('DIV');
     row.classList.add('py-5', 'px-3', 'card', 'shadow', 'col-md-6');
@@ -239,8 +239,14 @@ function showOrder() {
         valueTotal.textContent = `$${precio * quantity}`;
         totalEl.appendChild(valueTotal);
 
+        // boton
+        const btnDelete = document.createElement('BOTTON');
+        btnDelete.textContent = 'Eliminar producto';
+        btnDelete.classList.add('btn', 'btn-danger');
+        btnDelete.onclick = () => {deleteProdcut(id)}
+
         // agrega informacion al item
-        item.append(nameEl, quantityEl, priceEl, totalEl);
+        item.append(nameEl, quantityEl, priceEl, totalEl, btnDelete);
 
         // agrega item a la lista
         list.appendChild(item);
@@ -251,6 +257,17 @@ function showOrder() {
     row.append(table, hour, title, list);
     content.appendChild(row);
     
+}
+
+
+// elimina platillo ordenado
+function deleteProdcut(id) {
+    const {order} = client;
+
+    const remove = order.filter(meal => meal.id !== id);
+    client.order = [...remove];
+    
+    showOrder();
 }
 
 
