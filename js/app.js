@@ -120,7 +120,7 @@ function showMeals(meals) {
 // muestra pedidos
 function addMeal(product) {
     const {order} = client;
-    
+
     // verificamos si la cantidad es mayor a 0
     if(product.quantity > 0) {
 
@@ -140,4 +140,10 @@ function addMeal(product) {
             client.order = [...order, product];
         }
     }
+
+    if(product.quantity === 0) {
+        const remove = order.filter(meal => meal.id !== product.id);
+        client.order = [...remove];
+    }
+
 }
