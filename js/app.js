@@ -145,7 +145,13 @@ function updateMeal(product) {
         const remove = order.filter(meal => meal.id !== product.id);
         client.order = [...remove];
     }
-    showOrder();
+
+    // verifica si hay platillos seleccionados
+    if(client.order.length) {
+        showOrder();
+    } else {
+        emptyOrder();
+    }
 }
 
 
@@ -267,7 +273,25 @@ function deleteProdcut(id) {
     const remove = order.filter(meal => meal.id !== id);
     client.order = [...remove];
     
-    showOrder();
+    // verifica si hay platillos seleccionados
+    if(client.order.length) {
+        showOrder();
+    } else {
+        emptyOrder();
+    }
+}
+
+
+// muestra mensaje si aún no hay ningú plato seleccionado
+function emptyOrder() {
+    cleanOrder();
+
+    const content = document.querySelector('#resumen .contenido');
+
+    const text = document.createElement('P');
+    text.textContent = 'Añade los elementos del pedido';
+    text.classList.add('text-center');
+    content.appendChild(text);
 }
 
 
