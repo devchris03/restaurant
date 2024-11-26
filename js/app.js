@@ -53,8 +53,8 @@ function validate(event) {
     const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
     modalBootstrap.hide();
 
-    showSections()
-    getMeal()
+    showSections();
+    getMeal();
 }
 
 
@@ -67,7 +67,7 @@ function showSections() {
 
 // consultar los platos del JSON-SERVER
 function getMeal() {
-    const url = "http://localhost:3000/platillos"
+    const url = "http://localhost:4000/platillos"
 
     fetch(url)
         .then(result => result.json())
@@ -102,6 +102,12 @@ function showMeals(meals) {
         input.id = `producto-${meal.id}`;
         input.classList.add('form-control');
 
+        input.onchange = () => {
+            const quantity = parseInt(input.value);
+            addMeal({...meal, quantity});
+        }
+
+
         const add = document.createElement('DIV');
         add.classList.add('col-md-2');
         add.appendChild(input);
@@ -109,4 +115,29 @@ function showMeals(meals) {
         row.append(name, price, category, add);
         content.appendChild(row)
     })
+}
+
+// muestra pedidos
+function addMeal(product) {
+    const {order} = client;
+    
+    // verificamos si la cantidad es mayor a 0
+    if(product.quantity > 0) {
+
+        // verificamos si el producto ya existe
+        if(order.some(meal => meal.id === product.id)) {
+            const newOrder = order.map(meal => {
+                if(meal.id === product.id) {
+                    meal.quantity = product.quantity;
+                }
+
+                return meal;
+            })
+
+            client.order = [...newOrder];
+            
+        } else {
+            client.order = [...order, product];
+        }
+    }
 }
