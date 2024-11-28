@@ -260,9 +260,10 @@ function showOrder() {
 
 
     // agrega a los elementos padres
-    row.append(table, hour, title, list);
+    row.append(title, table, hour, list);
     content.appendChild(row);
     
+    showTip();
 }
 
 
@@ -279,6 +280,75 @@ function deleteProdcut(id) {
     } else {
         emptyOrder();
     }
+}
+
+
+// muestra formulario de propinas
+function showTip() {
+    const content = document.querySelector('#resumen .contenido');
+    
+    // contenedor
+    const row = document.createElement('DIV');
+    row.classList.add('col-md-6', 'formulario');
+
+    const form = document.createElement('FORM');
+    form.classList.add('card', 'py-5', 'px-3', 'shadow');
+
+    // title
+    const title = document.createElement('H3');
+    title.textContent = 'Propinas';
+    title.classList.add('my-4', 'text-center');
+
+    // inputs - radio 10%
+    const radio10 = document.createElement('INPUT');
+    radio10.type = 'radio';
+    radio10.name = 'propina';
+    radio10.value = "10";
+    radio10.classList.add('form-check-input');
+
+    const radio10Label = document.createElement('LABEL');
+    radio10Label.textContent = "10%"
+    radio10.classList.add('form-check-label');
+
+    const radio10Div = document.createElement('DIV');
+    radio10Div.classList.add('form-check');
+    radio10Div.append(radio10, radio10Label)
+    
+    // inputs - radio 20%
+    const radio20 = document.createElement('INPUT');
+    radio20.type = 'radio';
+    radio20.name = 'propina';
+    radio20.value = "20";
+    radio20.classList.add('form-check-input');
+
+    const radio20Label = document.createElement('LABEL');
+    radio20Label.textContent = "20%"
+    radio20.classList.add('form-check-label');
+
+    const radio20Div = document.createElement('DIV');
+    radio20Div.classList.add('form-check');
+    radio20Div.append(radio20, radio20Label);
+    
+    // inputs - radio 30%
+    const radio30 = document.createElement('INPUT');
+    radio30.type = 'radio';
+    radio30.name = 'propina';
+    radio30.value = "30";
+    radio30.classList.add('form-check-input');
+
+    const radio30Label = document.createElement('LABEL');
+    radio30Label.textContent = "30%"
+    radio30.classList.add('form-check-label');
+
+    const radio30Div = document.createElement('DIV');
+    radio30Div.classList.add('form-check');
+    radio30Div.append(radio30, radio30Label);
+
+
+    // agrega a contenedores padres
+    form.append(title, radio10Div, radio20Div, radio30Div);
+    row.appendChild(form);
+    content.appendChild(row)
 }
 
 
