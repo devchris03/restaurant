@@ -305,6 +305,7 @@ function showTip() {
     radio10.name = 'propina';
     radio10.value = "10";
     radio10.classList.add('form-check-input');
+    radio10.onclick = calcMoney;
 
     const radio10Label = document.createElement('LABEL');
     radio10Label.textContent = "10%"
@@ -320,6 +321,7 @@ function showTip() {
     radio20.name = 'propina';
     radio20.value = "20";
     radio20.classList.add('form-check-input');
+    radio20.onclick = calcMoney;
 
     const radio20Label = document.createElement('LABEL');
     radio20Label.textContent = "20%"
@@ -335,6 +337,7 @@ function showTip() {
     radio30.name = 'propina';
     radio30.value = "30";
     radio30.classList.add('form-check-input');
+    radio30.onclick = calcMoney;
 
     const radio30Label = document.createElement('LABEL');
     radio30Label.textContent = "30%"
@@ -351,6 +354,82 @@ function showTip() {
     content.appendChild(row)
 }
 
+
+// calcula subtotal, propina y total
+function calcMoney() {
+    let subtotal = 0;
+
+    const {order} = client;
+
+    // subtotal
+    order.forEach(meal => {
+        subtotal += meal.precio * meal.quantity;
+    })
+
+    // propina
+    const selectedTip = document.querySelector('[name = "propina"]:checked').value;
+    const propina = ((subtotal * parseInt(selectedTip)) / 100)
+
+    // total
+    const total = subtotal + propina;
+
+    showTotal(subtotal, propina, total);
+}
+
+
+// muestra detalles del pago
+function showTotal(subtotal, propina, total) {
+
+    const divTotales = document.createElement('DIV');
+    divTotales.classList.add('total-pagar');
+
+    // Subtotal
+    const subtotalParrafo = document.createElement('P');
+    subtotalParrafo.classList.add('fs-3', 'fw-bold', 'mt-5');
+    subtotalParrafo.textContent = 'Subtotal Consumo: ';
+
+    const subtotalSpan = document.createElement('SPAN');
+    subtotalSpan.classList.add('fw-normal');
+    subtotalSpan.textContent = `$${subtotal}`;
+    subtotalParrafo.appendChild(subtotalSpan);
+
+    // Propina
+    const propinaParrafo = document.createElement('P');
+    propinaParrafo.classList.add('fs-3', 'fw-bold');
+    propinaParrafo.textContent = 'Propina: ';
+
+    const propinaSpan = document.createElement('SPAN');
+    propinaSpan.classList.add('fw-normal');
+    propinaSpan.textContent = `$${propina}`;
+    propinaParrafo.appendChild(propinaSpan);
+
+    // Total
+    const totalParrafo = document.createElement('P');
+    totalParrafo.classList.add('fs-3', 'fw-bold');
+    totalParrafo.textContent = 'Total a Pagar: ';
+
+    const totalSpan = document.createElement('SPAN');
+    totalSpan.classList.add('fw-normal');
+    totalSpan.textContent = `$${total}`;
+
+    totalParrafo.appendChild(totalSpan);
+
+    const totalPagarDiv = document.querySelector('.total-pagar');
+    if(totalPagarDiv) {
+        totalPagarDiv.remove();
+    }
+   
+
+
+    divTotales.appendChild(subtotalParrafo);
+    divTotales.appendChild(propinaParrafo);
+    divTotales.appendChild(totalParrafo);
+
+    const formulario = document.querySelector('.formulario');
+    formulario.appendChild(divTotales);
+
+
+}
 
 // muestra mensaje si aún no hay ningú plato seleccionado
 function emptyOrder() {
